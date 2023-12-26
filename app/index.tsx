@@ -1,7 +1,16 @@
-import { Link } from 'expo-router';
+import * as Updates from 'expo-updates';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Page() {
+  async function restartAsync() {
+    try {
+      await Updates.reloadAsync();
+    } catch (error) {
+      // You can also add an alert() to see the error message in case of an error when fetching updates.
+      alert(`Error Expo update: ${error}`);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.main}>
@@ -9,11 +18,9 @@ export default function Page() {
           <Text style={styles.title}>Hello World</Text>
           <Text style={styles.subtitle}>This is the first page of your app.</Text>
         </View>
-        <Link href={{ pathname: '/details', params: { name: 'Dan' } }} asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Show Details</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity style={styles.button} onPress={restartAsync}>
+          <Text style={styles.buttonText}>restart</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
